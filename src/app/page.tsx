@@ -11,7 +11,6 @@ import Miscellaneous from "@/components/sections/Miscellaneous";
 import Contact from "@/components/sections/Contact";
 import { projects } from "@/data/projects";
 
-// Sections mapped out
 const sections = [
   { id: "cover", Component: Cover, props: {} },
   { id: "about", Component: About, props: {} },
@@ -25,69 +24,64 @@ const sections = [
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = down, -1 = up
-  const lastScrollTime = useRef(0);
+  const [direction, setDirection] = useState(1);
   const isAnimating = useRef(false);
+  const lastScrollTime = useRef(0);
   
   const handleNavigate = useCallback((index: number) => {
-    if (index === activeIndex || isAnimating.current) return;
+    const now = Date.now();
+    // Allow navigation if not already animating and cooldown passed
+    if (index === activeIndex || isAnimating.current || now - lastScrollTime.current < 600) return;
     
-    // Improved direction logic for wrapping
     let dir = index > activeIndex ? 1 : -1;
     if (activeIndex === sections.length - 1 && index === 0) dir = 1;
     if (activeIndex === 0 && index === sections.length - 1) dir = -1;
 
-    isAnimating.current = true; // Lock immediately to prevent double-triggers
+    isAnimating.current = true;
+    lastScrollTime.current = now;
     setDirection(dir);
     setActiveIndex(index);
-    lastScrollTime.current = Date.now();
+    
+    // Safety timeout to unlock navigation if AnimatePresence events fail
+    setTimeout(() => {
+      isAnimating.current = false;
+    }, 800);
   }, [activeIndex]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      const now = Date.now();
-      if (isAnimating.current || now - lastScrollTime.current < 800) return;
+      if (isAnimating.current) return;
       
-      const threshold = 30; // lower threshold for better responsiveness
+      const threshold = 30;
       if (e.deltaY > threshold) {
-        const next = (activeIndex + 1) % sections.length;
-        handleNavigate(next);
+        handleNavigate((activeIndex + 1) % sections.length);
       } else if (e.deltaY < -threshold) {
-        const prev = (activeIndex - 1 + sections.length) % sections.length;
-        handleNavigate(prev);
+        handleNavigate((activeIndex - 1 + sections.length) % sections.length);
       }
     };
 
-    // Touch support
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
     };
     
     const handleTouchEnd = (e: TouchEvent) => {
-      if (isAnimating.current) return;
       const touchEndY = e.changedTouches[0].clientY;
       const diff = touchStartY - touchEndY;
-      
-      const threshold = 50;
-      if (diff > threshold) {
-        const next = (activeIndex + 1) % sections.length;
-        handleNavigate(next);
-      } else if (diff < -threshold) {
-        const prev = (activeIndex - 1 + sections.length) % sections.length;
-        handleNavigate(prev);
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          handleNavigate((activeIndex + 1) % sections.length);
+        } else {
+          handleNavigate((activeIndex - 1 + sections.length) % sections.length);
+        }
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isAnimating.current) return;
-      
-      if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
-        const next = (activeIndex + 1) % sections.length;
-        handleNavigate(next);
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft" || e.key === "PageUp") {
-        const prev = (activeIndex - 1 + sections.length) % sections.length;
-        handleNavigate(prev);
+      if (["ArrowDown", "ArrowRight", " ", "PageDown"].includes(e.key)) {
+        handleNavigate((activeIndex + 1) % sections.length);
+      } else if (["ArrowUp", "ArrowLeft", "PageUp"].includes(e.key)) {
+        handleNavigate((activeIndex - 1 + sections.length) % sections.length);
       }
     };
 
@@ -107,7 +101,6 @@ export default function Home() {
   const CurrentComponent = sections[activeIndex].Component;
   const currentProps = sections[activeIndex].props;
 
-  // The requested animation: a vertical "page turn" — outgoing section clips upward while incoming section reveals from below.
   const variants = {
     enter: (direction: number) => ({
       y: direction > 0 ? "100%" : "-100%",
@@ -143,7 +136,6 @@ export default function Home() {
           initial="enter"
           animate="center"
           exit="exit"
-          onAnimationStart={() => { isAnimating.current = true; }}
           transition={{
             y: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
             clipPath: { duration: 0.7, ease: [0.76, 0, 0.24, 1] }
