@@ -1,0 +1,53 @@
+:root {
+  /* Typography Scale */
+  --font-display: "Cormorant Garamond", "Playfair Display", serif;
+  --font-sans: "DM Sans", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --text-xs: 0.625rem; /* 10px */
+  --text-sm: 0.75rem; /* 12px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.25rem;
+  --text-2xl: 2rem;
+  --text-4xl: 3.5rem;
+  --text-6xl: 6rem;
+  --text-hero: clamp(5rem, 10vw, 9rem);
+
+  /* Letter Spacing */
+  --tracking-widest: 0.25em;
+  --tracking-wide: 0.12em;
+
+  /* Layout */
+  --header-height: 56px;
+}
+
+/* Light Theme Variables */
+:root {
+  --bg: #F5F4F0;
+  --bg-surface: #EDEBE5;
+  --fg: #1A1916;
+  --fg-muted: #6B6861;
+  --fg-faint: #A8A49E;
+  --accent: #C4390A;
+  --accent-warm: #8B5E3C;
+  --border: #D4D0C8;
+}
+
+/* Dark Theme Variables */
+[data-theme='dark'] {
+  --bg: #141210;
+  --bg-surface: #1E1C19;
+  --fg: #F0EDE6;
+  --fg-muted: #9A9690;
+  --fg-faint: #524F4A;
+  --accent: #D95A2B;
+  --accent-warm: #C48250;
+  --border: #2E2B27;
+}
+
+/* Theme Transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 400ms;
+}
