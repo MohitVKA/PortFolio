@@ -108,7 +108,7 @@ export default function ProjectDetail({ project, pageNumLeft, pageNumRight }: Pr
                )}
             </motion.div>
             
-            <motion.div variants={fadeUp} className="absolute bottom-6 left-6 md:left-12 text-caption text-bg mix-blend-difference z-10 font-bold">
+            <motion.div variants={fadeUp} className="absolute bottom-6 left-6 md:left-12 text-caption text-fg z-10 font-bold">
               {renderImage?.caption || "AERIAL RENDER"}
             </motion.div>
           </motion.div>

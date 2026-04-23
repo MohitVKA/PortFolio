@@ -12,7 +12,7 @@ export default function Cover() {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center relative overflow-hidden bg-bg">
       <motion.div 
-        className="z-10 flex flex-col items-center text-center mix-blend-difference text-fg"
+        className="z-10 flex flex-col items-center text-center text-fg"
         style={{ scale }}
         variants={staggerContainer}
         initial="hidden"

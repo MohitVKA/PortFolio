@@ -24,13 +24,13 @@
 /* Light Theme Variables */
 :root {
   --bg: #F5F4F0;
-  --bg-surface: #EDEBE5;
+  --bg-surface: #E5E2D8;
   --fg: #1A1916;
   --fg-muted: #6B6861;
-  --fg-faint: #A8A49E;
+  --fg-faint: #8A8680;
   --accent: #C4390A;
   --accent-warm: #8B5E3C;
-  --border: #D4D0C8;
+  --border: #BBB8B0;
 }
 
 /* Dark Theme Variables */
