@@ -26,27 +26,35 @@ const sections = [
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = down, -1 = up
+  const lastScrollTime = useRef(0);
   const isAnimating = useRef(false);
   
   const handleNavigate = useCallback((index: number) => {
     if (index === activeIndex || isAnimating.current) return;
-    setDirection(index > activeIndex ? 1 : -1);
+    
+    // Improved direction logic for wrapping
+    let dir = index > activeIndex ? 1 : -1;
+    if (activeIndex === sections.length - 1 && index === 0) dir = 1;
+    if (activeIndex === 0 && index === sections.length - 1) dir = -1;
+
+    isAnimating.current = true; // Lock immediately to prevent double-triggers
+    setDirection(dir);
     setActiveIndex(index);
+    lastScrollTime.current = Date.now();
   }, [activeIndex]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (isAnimating.current) return;
+      const now = Date.now();
+      if (isAnimating.current || now - lastScrollTime.current < 800) return;
       
-      const threshold = 50; // minimum scroll amount
+      const threshold = 30; // lower threshold for better responsiveness
       if (e.deltaY > threshold) {
-        if (activeIndex < sections.length - 1) {
-          handleNavigate(activeIndex + 1);
-        }
+        const next = (activeIndex + 1) % sections.length;
+        handleNavigate(next);
       } else if (e.deltaY < -threshold) {
-        if (activeIndex > 0) {
-          handleNavigate(activeIndex - 1);
-        }
+        const prev = (activeIndex - 1 + sections.length) % sections.length;
+        handleNavigate(prev);
       }
     };
 
@@ -63,19 +71,23 @@ export default function Home() {
       
       const threshold = 50;
       if (diff > threshold) {
-        if (activeIndex < sections.length - 1) handleNavigate(activeIndex + 1);
+        const next = (activeIndex + 1) % sections.length;
+        handleNavigate(next);
       } else if (diff < -threshold) {
-        if (activeIndex > 0) handleNavigate(activeIndex - 1);
+        const prev = (activeIndex - 1 + sections.length) % sections.length;
+        handleNavigate(prev);
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isAnimating.current) return;
       
-      if (e.key === "ArrowDown" || e.key === " " || e.key === "PageDown") {
-        if (activeIndex < sections.length - 1) handleNavigate(activeIndex + 1);
-      } else if (e.key === "ArrowUp" || e.key === "PageUp") {
-        if (activeIndex > 0) handleNavigate(activeIndex - 1);
+      if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        const next = (activeIndex + 1) % sections.length;
+        handleNavigate(next);
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft" || e.key === "PageUp") {
+        const prev = (activeIndex - 1 + sections.length) % sections.length;
+        handleNavigate(prev);
       }
     };
 
