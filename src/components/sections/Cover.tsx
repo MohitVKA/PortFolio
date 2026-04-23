@@ -21,7 +21,7 @@ export default function Cover() {
         <motion.span variants={fadeUp} className="text-sm label-caps tracking-[0.4em] mb-4">
           A R C H I T E C T U R E
         </motion.span>
-        <motion.h1 variants={fadeUp} className="font-display font-bold text-[clamp(4rem,12vw,10rem)] leading-[0.85] tracking-tight">
+        <motion.h1 variants={fadeUp} className="font-display font-bold text-[clamp(4rem,12vw,10rem)] leading-[0.85] tracking-tight dark:text-gold-gradient">
           PORTFOLIO
         </motion.h1>
       </motion.div>
