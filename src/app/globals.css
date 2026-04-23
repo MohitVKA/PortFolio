@@ -39,7 +39,7 @@
     @apply bg-transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full;
+    @apply bg-themeborder rounded-full;
   }
 }
 
