@@ -32,7 +32,7 @@ export const projects: Project[] = [
     coverImage: "/images/projects/placeholder-01.jpg",
     images: [
       { src: "/images/projects/placeholder-01-axon.svg", caption: "AXONOMETRIC PROJECTION", type: "axon" },
-      { src: "/images/projects/placeholder-01-render.jpg", caption: "AERIAL VIEW - SITE", type: "render" },
+      { src: "/images/projects/placeholder-01-render.svg", caption: "AERIAL VIEW - SITE", type: "render" },
     ],
     tags: ["Institutional", "Cultural", "Masterplan"]
   },
@@ -50,7 +50,7 @@ export const projects: Project[] = [
     coverImage: "/images/projects/placeholder-02.jpg",
     images: [
       { src: "/images/projects/placeholder-02-axon.svg", caption: "UNIT AXONOMETRIC", type: "axon" },
-      { src: "/images/projects/placeholder-02-render.jpg", caption: "STREET PERSPECTIVE", type: "render" },
+      { src: "/images/projects/placeholder-02-render.svg", caption: "STREET PERSPECTIVE", type: "render" },
     ],
     tags: ["Residential", "Modular", "Urban"]
   },
@@ -68,7 +68,7 @@ export const projects: Project[] = [
     coverImage: "/images/projects/placeholder-03.jpg",
     images: [
       { src: "/images/projects/placeholder-03-axon.svg", caption: "EXPLODED ISOMETRIC", type: "axon" },
-      { src: "/images/projects/placeholder-03-render.jpg", caption: "COURTYARD INTERIOR", type: "render" },
+      { src: "/images/projects/placeholder-03-render.svg", caption: "COURTYARD INTERIOR", type: "render" },
     ],
     tags: ["Commercial", "Public Space", "Adaptive Reuse"]
   },

@@ -32,7 +32,7 @@ export default function About() {
             <motion.div variants={fadeInDelay} className="w-full xl:w-1/2 aspect-[3/4] bg-bg-surface overflow-hidden relative filter grayscale-[50%] hover:grayscale-0 transition-all duration-700">
               {/* Image Placeholder */}
               <Image 
-                src="/images/portrait-placeholder.jpg" 
+                src="/images/portrait-placeholder.svg" 
                 alt="Mohit S" 
                 fill 
                 className="object-cover"
