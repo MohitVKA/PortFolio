@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Cover from "@/components/sections/Cover";
@@ -17,19 +17,19 @@ type SectionProps =
 
 interface Section {
   id: string;
-  Component: React.ComponentType<any>;
+  Component: React.ComponentType<SectionProps>;
   props: SectionProps;
 }
 
 const sections: Section[] = [
-  { id: "cover", Component: Cover, props: {} },
-  { id: "about", Component: About, props: {} },
-  { id: "toc", Component: TableOfContents, props: {} },
-  { id: "project-01", Component: ProjectDetail, props: { project: projects[0], pageNumLeft: "06", pageNumRight: "07" } },
-  { id: "project-02", Component: ProjectDetail, props: { project: projects[1], pageNumLeft: "08", pageNumRight: "09" } },
-  { id: "project-03", Component: ProjectDetail, props: { project: projects[2], pageNumLeft: "10", pageNumRight: "11" } },
-  { id: "miscellaneous", Component: Miscellaneous, props: { project: projects[3], pageNumLeft: "12", pageNumRight: "13" } },
-  { id: "contact", Component: Contact, props: {} },
+  { id: "cover", Component: Cover as React.ComponentType<SectionProps>, props: {} },
+  { id: "about", Component: About as React.ComponentType<SectionProps>, props: {} },
+  { id: "toc", Component: TableOfContents as React.ComponentType<SectionProps>, props: {} },
+  { id: "project-01", Component: ProjectDetail as React.ComponentType<SectionProps>, props: { project: projects[0], pageNumLeft: "06", pageNumRight: "07" } },
+  { id: "project-02", Component: ProjectDetail as React.ComponentType<SectionProps>, props: { project: projects[1], pageNumLeft: "08", pageNumRight: "09" } },
+  { id: "project-03", Component: ProjectDetail as React.ComponentType<SectionProps>, props: { project: projects[2], pageNumLeft: "10", pageNumRight: "11" } },
+  { id: "miscellaneous", Component: Miscellaneous as React.ComponentType<SectionProps>, props: { project: projects[3], pageNumLeft: "12", pageNumRight: "13" } },
+  { id: "contact", Component: Contact as React.ComponentType<SectionProps>, props: {} },
 ];
 
 export default function Home() {
@@ -55,7 +55,7 @@ export default function Home() {
     
     setTimeout(() => {
       lock.current = false;
-    }, 600); // Faster unlock for snappier feel
+    }, 600);
   }, []);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Home() {
       const endY = e.changedTouches[0].clientY;
       const diff = startY - endY;
       if (Math.abs(diff) > 40) {
-        handleNavigate(diff > 0 ? (activeIndexRef.current + 1) % sections.length : (activeIndex - 1 + sections.length) % sections.length);
+        handleNavigate(diff > 0 ? (activeIndexRef.current + 1) % sections.length : (activeIndexRef.current - 1 + sections.length) % sections.length);
       }
     };
 
@@ -102,6 +102,8 @@ export default function Home() {
       window.removeEventListener("touchend", handleTouchEnd);
       window.removeEventListener("keydown", handleKey);
     };
+    // We intentionally only run this once on mount since we use activeIndexRef
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleNavigate]);
 
   const variants: Variants = {
@@ -110,7 +112,7 @@ export default function Home() {
     }),
     center: {
       y: "0%",
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } // Quintic ease-out for ultra smoothness
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
     },
     exit: (d: number) => ({
       y: d > 0 ? "-100%" : "100%",
@@ -118,8 +120,8 @@ export default function Home() {
     }),
   };
 
-  const Current = sections[activeIndex].Component;
-  const props = sections[activeIndex].props;
+  const CurrentComponent = sections[activeIndex].Component;
+  const currentProps = sections[activeIndex].props;
 
   return (
     <main className="w-full h-screen overflow-hidden bg-bg relative">
@@ -134,7 +136,7 @@ export default function Home() {
           exit="exit"
           className="absolute inset-0 w-full h-full"
         >
-          <Current {...props} />
+          <CurrentComponent {...currentProps} />
         </motion.div>
       </AnimatePresence>
     </main>
