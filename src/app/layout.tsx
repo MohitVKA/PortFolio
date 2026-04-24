@@ -24,8 +24,8 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MOHIT S | Architecture Portfolio",
-  description: "Architecture Portfolio of Mohit S (2022–2026)",
+  title: "MOHIT S | Unreal Engine Artist Portfolio",
+  description: "Portfolio of Mohit S — Unreal Engine Artist (2022–2026)",
 };
 
 export default function RootLayout({

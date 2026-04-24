@@ -1,19 +1,14 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import PageNumber from "../ui/PageNumber";
 import { staggerContainer, fadeUp, pathDraw } from "@/lib/animations";
 
 export default function Cover() {
-  const { scrollY } = useScroll();
-  // Subtly scale down the title when scrolling
-  const scale = useTransform(scrollY, [0, 500], [1, 0.95]);
-
   return (
     <div className="w-full h-full flex flex-col justify-center items-center relative overflow-hidden bg-bg">
       <motion.div 
         className="z-10 flex flex-col items-center text-center text-fg"
-        style={{ scale }}
         variants={staggerContainer}
         initial="hidden"
         animate="show"

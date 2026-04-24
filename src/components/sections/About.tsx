@@ -99,6 +99,31 @@ export default function About() {
             ))}
           </motion.div>
 
+          <motion.div variants={fadeUp} className="mb-12">
+            <h3 className="text-sm label-caps mb-6">Expertise</h3>
+            <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm font-mono text-fg-muted uppercase tracking-wider">
+              {aboutData.softwareSkills.map((skill, i) => (
+                <div key={i}>{skill}</div>
+              ))}
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mb-12">
+            <motion.div variants={fadeUp}>
+              <h3 className="text-sm label-caps mb-4">Workshops</h3>
+              <ul className="text-xs space-y-2 text-fg-muted font-mono uppercase">
+                {aboutData.workshops.map((w, i) => <li key={i}>{w}</li>)}
+              </ul>
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <h3 className="text-sm label-caps mb-4">Interests</h3>
+              <div className="flex flex-wrap gap-2">
+                {aboutData.interests.map((it, i) => (
+                   <span key={i} className="text-[10px] font-mono border border-themeborder px-2 py-1 uppercase">{it}</span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
 
         

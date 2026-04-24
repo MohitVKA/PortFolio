@@ -9,9 +9,19 @@ import TableOfContents from "@/components/sections/TableOfContents";
 import ProjectDetail from "@/components/sections/ProjectDetail";
 import Miscellaneous from "@/components/sections/Miscellaneous";
 import Contact from "@/components/sections/Contact";
-import { projects } from "@/data/projects";
+import { projects, Project } from "@/data/projects";
 
-const sections = [
+type SectionProps = 
+  | { project: Project; pageNumLeft: string; pageNumRight: string }
+  | Record<string, never>;
+
+interface Section {
+  id: string;
+  Component: React.ComponentType<any>;
+  props: SectionProps;
+}
+
+const sections: Section[] = [
   { id: "cover", Component: Cover, props: {} },
   { id: "about", Component: About, props: {} },
   { id: "toc", Component: TableOfContents, props: {} },
@@ -136,7 +146,6 @@ export default function Home() {
           transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
           className="absolute inset-0 w-full h-full"
         >
-          {/* @ts-expect-error - Dynamic component props mismatch */}
           <Current {...props} />
         </motion.div>
       </AnimatePresence>
