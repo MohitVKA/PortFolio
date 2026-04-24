@@ -3,14 +3,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import PageNumber from "../ui/PageNumber";
-import SkillBar from "../ui/SkillBar";
 import SectionDivider from "../ui/SectionDivider";
 import { aboutData } from "@/data/about";
 import { staggerContainer, fadeUp, fadeInDelay } from "@/lib/animations";
 // Let's just import from about and skills respectively.
 
 // Re-importing locally to ensure it works
-import { skills as skillData } from "@/data/skills";
+
 
 export default function About() {
   return (
@@ -100,19 +99,8 @@ export default function About() {
             ))}
           </motion.div>
 
-          <motion.div variants={fadeUp} className="mb-12">
-            <h3 className="text-sm label-caps mb-6">Skills</h3>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-2 mb-8 text-sm font-mono text-fg-muted">
-              {aboutData.softwareSkills.map((skill, i) => (
-                <div key={i}>{skill}</div>
-              ))}
-            </div>
-            
-            {skillData.map((skill, i) => (
-              <SkillBar key={i} name={skill.name} percentage={skill.percentage} />
-            ))}
-          </motion.div>
         </motion.div>
+
         
         <PageNumber number="03" position="right" />
       </div>
