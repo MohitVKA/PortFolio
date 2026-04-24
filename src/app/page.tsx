@@ -26,34 +26,48 @@ export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const lock = useRef(false);
+  const activeIndexRef = useRef(0);
+
+  // Sync ref with state for use in listeners
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
   
   const handleNavigate = useCallback((index: number) => {
-    if (index === activeIndex || lock.current) return;
+    if (index === activeIndexRef.current || lock.current) {
+      console.log("Navigation blocked:", { index, activeIndex: activeIndexRef.current, locked: lock.current });
+      return;
+    }
     
+    console.log("Navigating to:", index);
     lock.current = true;
     
-    let dir = index > activeIndex ? 1 : -1;
-    if (activeIndex === sections.length - 1 && index === 0) dir = 1;
-    if (activeIndex === 0 && index === sections.length - 1) dir = -1;
+    let dir = index > activeIndexRef.current ? 1 : -1;
+    if (activeIndexRef.current === sections.length - 1 && index === 0) dir = 1;
+    if (activeIndexRef.current === 0 && index === sections.length - 1) dir = -1;
 
     setDirection(dir);
     setActiveIndex(index);
     
+    // Safety unlock
     setTimeout(() => {
       lock.current = false;
-    }, 800);
-  }, [activeIndex]);
+      console.log("Navigation unlocked");
+    }, 850);
+  }, []);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
+      // Don't prevent default if we're not actually doing anything
+      if (Math.abs(e.deltaY) < 10) return;
+      
       e.preventDefault();
       if (lock.current) return;
-      if (Math.abs(e.deltaY) < 30) return;
-      
-      if (e.deltaY > 0) {
-        handleNavigate((activeIndex + 1) % sections.length);
-      } else {
-        handleNavigate((activeIndex - 1 + sections.length) % sections.length);
+
+      if (e.deltaY > 20) {
+        handleNavigate((activeIndexRef.current + 1) % sections.length);
+      } else if (e.deltaY < -20) {
+        handleNavigate((activeIndexRef.current - 1 + sections.length) % sections.length);
       }
     };
 
@@ -63,17 +77,17 @@ export default function Home() {
       if (lock.current) return;
       const endY = e.changedTouches[0].clientY;
       const diff = startY - endY;
-      if (Math.abs(diff) > 50) {
-        handleNavigate(diff > 0 ? (activeIndex + 1) % sections.length : (activeIndex - 1 + sections.length) % sections.length);
+      if (Math.abs(diff) > 40) {
+        handleNavigate(diff > 0 ? (activeIndexRef.current + 1) % sections.length : (activeIndexRef.current - 1 + sections.length) % sections.length);
       }
     };
 
     const handleKey = (e: KeyboardEvent) => {
       if (lock.current) return;
       if (["ArrowDown", "ArrowRight", " ", "PageDown"].includes(e.key)) {
-        handleNavigate((activeIndex + 1) % sections.length);
+        handleNavigate((activeIndexRef.current + 1) % sections.length);
       } else if (["ArrowUp", "ArrowLeft", "PageUp"].includes(e.key)) {
-        handleNavigate((activeIndex - 1 + sections.length) % sections.length);
+        handleNavigate((activeIndexRef.current - 1 + sections.length) % sections.length);
       }
     };
 
@@ -88,7 +102,7 @@ export default function Home() {
       window.removeEventListener("touchend", handleTouchEnd);
       window.removeEventListener("keydown", handleKey);
     };
-  }, [activeIndex, handleNavigate]);
+  }, [handleNavigate]);
 
   const variants: Variants = {
     enter: (d: number) => ({

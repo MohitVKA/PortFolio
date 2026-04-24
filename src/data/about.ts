@@ -1,25 +1,30 @@
 export const aboutData = {
   name: "MOHIT S",
-  role: "ARCHITECTURE STUDENT",
-  bio: "I am an architecture student with a deep interest in how spatial design shapes human experience and cultural identity. My work explores the intersection of traditional building practices and modern tectonic logic, striving for minimal, honest, and contextually rooted architecture.",
+  role: "Unreal Engine Artist",
+  bio: "I am an Unreal Engine Artist with a deep interest in the real-time work and development in the gaming and architecture industry. My work explores the new concepts of mechanics to creating blueprints with logic, building practices and modern technologies and striving for immersive, interactive and contextually rooted core systems for the architectural and gaming industry.",
   contact: {
-    email: "contact@mohits.com",
-    phone: "+91 98765 43210",
-    location: "Bangalore, India",
-    instagram: "@mohits.arch"
+    email: "mohitsonje4@gmail.com",
+    phone: "+91 9763965277",
+    location: "Pune, India",
+    instagram: "@M.S.Studios_19"
   },
   education: [
     {
-      institution: "School of Architecture, University Name",
-      degree: "Bachelor of Architecture (B.Arch)",
-      years: "2022 – 2027",
+      institution: "MAAC Institute",
+      degree: "Game Design and Development Diploma",
+      years: "2019 – 2022",
     }
   ],
   experience: [
     {
-      company: "Studio Name Architects",
-      role: "Architectural Intern",
-      years: "Summer 2025",
+      company: "Crescendo",
+      role: "Unreal Engine Artist",
+      years: "Summer 2024",
+    },
+    {
+      company: "Vk Design and Projects Pvt.ltd(Vk Group)",
+      role: "Real Time Archviz Developer",
+      years: "Late Spring2023 - Present",
     }
   ],
   workshops: [
@@ -29,7 +34,7 @@ export const aboutData = {
   publications: [
     "Annual Architecture Review Vol. 12"
   ],
-  softwareSkills: ["AutoCAD", "Revit", "Rhino 3D", "SketchUp", "V-Ray", "Lumion", "Adobe CC", "Figma"],
-  languages: ["English", "Hindi", "Kannada"],
-  interests: ["Photography", "Typography", "Urban Sketching"]
+  softwareSkills: ["Unreal Engine", "TwinMotion", "Reality Scan", "TouchDesigner", "MadMapper", "ComfyUI", "NVIDIA Omniverse", "Pixel Streaming"],
+  languages: ["English", "Hindi", "Marathi"],
+  interests: ["Trading", "Video Games", "F1", "Gym", "DJing"]
 };
