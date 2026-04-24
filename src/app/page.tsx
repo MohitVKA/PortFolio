@@ -38,20 +38,14 @@ export default function Home() {
   const lock = useRef(false);
   const activeIndexRef = useRef(0);
 
-  // Sync ref with state for use in listeners
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
   
   const handleNavigate = useCallback((index: number) => {
-    if (index === activeIndexRef.current || lock.current) {
-      console.log("Navigation blocked:", { index, activeIndex: activeIndexRef.current, locked: lock.current });
-      return;
-    }
+    if (index === activeIndexRef.current || lock.current) return;
     
-    console.log("Navigating to:", index);
     lock.current = true;
-    
     let dir = index > activeIndexRef.current ? 1 : -1;
     if (activeIndexRef.current === sections.length - 1 && index === 0) dir = 1;
     if (activeIndexRef.current === 0 && index === sections.length - 1) dir = -1;
@@ -59,18 +53,14 @@ export default function Home() {
     setDirection(dir);
     setActiveIndex(index);
     
-    // Safety unlock
     setTimeout(() => {
       lock.current = false;
-      console.log("Navigation unlocked");
-    }, 850);
+    }, 600); // Faster unlock for snappier feel
   }, []);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      // Don't prevent default if we're not actually doing anything
       if (Math.abs(e.deltaY) < 10) return;
-      
       e.preventDefault();
       if (lock.current) return;
 
@@ -88,7 +78,7 @@ export default function Home() {
       const endY = e.changedTouches[0].clientY;
       const diff = startY - endY;
       if (Math.abs(diff) > 40) {
-        handleNavigate(diff > 0 ? (activeIndexRef.current + 1) % sections.length : (activeIndexRef.current - 1 + sections.length) % sections.length);
+        handleNavigate(diff > 0 ? (activeIndexRef.current + 1) % sections.length : (activeIndex - 1 + sections.length) % sections.length);
       }
     };
 
@@ -117,15 +107,14 @@ export default function Home() {
   const variants: Variants = {
     enter: (d: number) => ({
       y: d > 0 ? "100%" : "-100%",
-      zIndex: d > 0 ? 1 : 0
     }),
     center: {
       y: "0%",
-      zIndex: 1
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } // Quintic ease-out for ultra smoothness
     },
     exit: (d: number) => ({
-      clipPath: d > 0 ? "inset(100% 0 0 0)" : "inset(0 0 0 0)",
-      zIndex: 0
+      y: d > 0 ? "-100%" : "100%",
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
     }),
   };
 
@@ -135,7 +124,7 @@ export default function Home() {
   return (
     <main className="w-full h-screen overflow-hidden bg-bg relative">
       <Navbar activeIndex={activeIndex} totalSections={sections.length} onNavigate={handleNavigate} />
-      <AnimatePresence initial={false} custom={direction}>
+      <AnimatePresence initial={false} custom={direction} mode="popLayout">
         <motion.div
           key={activeIndex}
           custom={direction}
@@ -143,7 +132,6 @@ export default function Home() {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
           className="absolute inset-0 w-full h-full"
         >
           <Current {...props} />

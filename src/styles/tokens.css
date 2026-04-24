@@ -45,9 +45,9 @@
   --border: #2D2824;
 }
 
-/* Theme Transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
+/* Theme Transitions — scoped only to body, not * (avoids Framer Motion conflicts) */
+body {
+  transition-property: background-color, color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 400ms;
 }

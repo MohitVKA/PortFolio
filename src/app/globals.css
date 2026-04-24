@@ -6,18 +6,12 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    transition-property: background-color, border-color, color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 400ms;
-  }
-
   html, body {
     background-color: var(--bg);
     color: var(--fg);
     margin: 0;
     padding: 0;
-    overflow: hidden; /* We will use our own custom scroll logic */
+    overflow: hidden;
   }
 
   ::selection {
@@ -25,7 +19,6 @@
     color: var(--fg);
   }
 
-  /* Focus ring for accessibility */
   *:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -49,20 +42,7 @@
   }
 }
 
-/* Custom Scrollbar for inner scrolling (if any) */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--fg-muted);
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); }
+::-webkit-scrollbar-thumb:hover { background: var(--fg-muted); }

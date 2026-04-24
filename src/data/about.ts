@@ -28,11 +28,9 @@ export const aboutData = {
     }
   ],
   workshops: [
-    "Bamboo Construction Workshop, 2024",
-    "Parametric Design Seminar, 2023"
-  ],
-  publications: [
-    "Annual Architecture Review Vol. 12"
+    "Person Collage Escape Studio Gaming Masterclass, 2022",
+    "Epic Games Masterclass, 2023",
+    "Green Rain Studio Unreal MasterClass, 2024"
   ],
   softwareSkills: ["Unreal Engine", "TwinMotion", "Reality Scan", "TouchDesigner", "MadMapper", "ComfyUI", "NVIDIA Omniverse", "Pixel Streaming"],
   languages: ["English", "Hindi", "Marathi"],
